@@ -5,6 +5,7 @@ type BodyParser struct {
 	Grade int
 }
 type User struct {
+	ID 	int `json:"id"`
 	Name  string `json:"name" binding:"required"`
-	Grade int
+	Grade int	`json:"grade" binding:"required"`
 }
