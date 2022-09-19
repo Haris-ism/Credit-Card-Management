@@ -4,34 +4,10 @@ import (
 	"gorm.io/gorm"
 )
 
-type Repository interface {
-	FindAll() ([]User, error)
-}
-type Service interface {
-	FindAll() ([]User, error)
-}
-type repository struct {
-	db *gorm.DB
+type repo struct {
+	DB *gorm.DB //this struct is required to make method for the established db connection
 }
 
-type service struct {
-	repo Repository
-}
-
-func NewRepository(db *gorm.DB) *repository {
-	return &repository{db}
-}
-func NewService(repository Repository) *service {
-	return &service{repository}
-}
-func (r *repository) FindAll() ([]User, error) {
-	var user []User
-	err := r.db.Find(&user).Error
-
-	return user, err
-}
-func (s *service) FindAll() ([]User, error) {
-	users, err := s.repo.FindAll()
-
-	return users, err
+func Service(db *gorm.DB) *repo {
+	return &repo{db} // function to pass the db connection
 }
