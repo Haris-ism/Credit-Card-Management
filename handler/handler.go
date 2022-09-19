@@ -11,7 +11,7 @@ import (
 	jwt "github.com/golang-jwt/jwt/v4"
 	"golang.org/x/crypto/bcrypt"
 )
-
+var asd int
 func (t *repo) Post(c *gin.Context) {
 	body := model.BodyParser{}
 	//method to get body of request
@@ -21,9 +21,12 @@ func (t *repo) Post(c *gin.Context) {
 	}
 	fmt.Println("body:", body)
 
-	user := model.User{}
+	var user  model.User
 	user.Name = body.Name
 	user.Grade = body.Grade
+	user.Created_At=time.Now()
+	fmt.Println("ieu user",user)
+
 	// method to post to DB
 	if err1 := t.DB.Create(&user).Error; err1 != nil {
 		fmt.Println(err1)
@@ -192,7 +195,6 @@ func (t *repo) Put(c *gin.Context) {
 	}
 	user.Name = body.Name
 	user.Grade = body.Grade
-
 	if err := t.DB.Save(&user).Error; err != nil {
 		fmt.Println(err)
 		c.JSON(http.StatusOK, gin.H{
@@ -204,4 +206,28 @@ func (t *repo) Put(c *gin.Context) {
 		"message": "edit success",
 		"data":    user,
 	})
+}
+func (t *repo)Goroutines(c *gin.Context){
+	fmt.Println("var",asd)
+	body := model.BodyParser{}
+	if err := c.BindJSON(&body); err != nil {
+		fmt.Println(err)
+		return
+	}
+go func() {
+    for {
+		if asd!=body.Grade{
+				return
+		}
+		if asd==0{
+			fmt.Println("looping",body.Grade)
+
+		}else{
+			fmt.Println("looping",asd)
+
+		}
+			time.Sleep(time.Duration(asd)*time.Second)
+    }
+	}()
+	asd=body.Grade;
 }

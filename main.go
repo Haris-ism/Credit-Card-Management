@@ -24,6 +24,7 @@ func main() {
 	router.POST("/", services.Post)
 	router.POST("/signup", services.SignUp)
 	router.POST("/signin", services.SignIn)
+	router.POST("/goroutines", services.Goroutines)
 	fmt.Println("starts")
 	router.Run(port)
 }
