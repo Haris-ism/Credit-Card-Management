@@ -12,7 +12,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func (t *repo) Post(c *gin.Context) {
+func (t *Repo) Post(c *gin.Context) {
 	body := model.BodyParser{}
 	//method to get body of request
 	if err := c.BindJSON(&body); err != nil {
@@ -35,7 +35,7 @@ func (t *repo) Post(c *gin.Context) {
 	})
 
 }
-func (t *repo) SignUp(c *gin.Context) {
+func (t *Repo) SignUp(c *gin.Context) {
 	body := model.BodyParser{}
 	//method to get body of request
 	if err := c.BindJSON(&body); err != nil {
@@ -62,7 +62,7 @@ func (t *repo) SignUp(c *gin.Context) {
 
 }
 
-func (t *repo) SignIn(c *gin.Context) {
+func (t *Repo) SignIn(c *gin.Context) {
 	body := model.BodyParser{}
 	//method to get body of request
 	if err := c.BindJSON(&body); err != nil {
@@ -115,7 +115,7 @@ func (t *repo) SignIn(c *gin.Context) {
 	})
 
 }
-func (t *repo) Get(c *gin.Context) {
+func (t *Repo) Get(c *gin.Context) {
 	var user []model.User
 
 	if err := t.DB.Find(&user).Error; err != nil {
@@ -127,7 +127,7 @@ func (t *repo) Get(c *gin.Context) {
 		"data":    user,
 	})
 }
-func (t *repo) GetOne(c *gin.Context) {
+func (t *Repo) GetOne(c *gin.Context) {
 	id := c.Param("id")
 	var user []model.User
 
@@ -152,7 +152,7 @@ func (t *repo) GetOne(c *gin.Context) {
 		"data":    user,
 	})
 }
-func (t *repo) Delete(c *gin.Context) {
+func (t *Repo) Delete(c *gin.Context) {
 	id := c.Param("id")
 	var user []model.User
 
@@ -169,7 +169,7 @@ func (t *repo) Delete(c *gin.Context) {
 		"message": "delete success",
 	})
 }
-func (t *repo) Put(c *gin.Context) {
+func (t *Repo) Put(c *gin.Context) {
 	id := c.Param("id")
 	body := model.BodyParser{}
 

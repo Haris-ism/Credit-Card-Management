@@ -17,7 +17,7 @@ func main() {
 	services := handler.Service(db)
 	router := gin.Default()
 	router.Use(middleware.CorsMiddleware)
-	router.GET("/", services.Get)
+	router.GET("/", middleware.Auth, services.Get)
 	router.GET("/:id", services.GetOne)
 	router.DELETE("/:id", services.Delete)
 	router.PUT("/:id", services.Put)
