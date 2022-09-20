@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"time"
+	"reflect"
 
 	"github.com/gin-gonic/gin"
 	jwt "github.com/golang-jwt/jwt/v4"
@@ -12,9 +12,13 @@ import (
 
 func Auth(c *gin.Context) {
 	tokenString, err := c.Cookie("Authorization")
+
 	if err != nil {
 		fmt.Println("failed to get cookies")
-		c.AbortWithStatus(http.StatusUnauthorized)
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"message": err.Error(),
+		})
+		c.Abort()
 		return
 	}
 	// fmt.Println("token", tokenString)
@@ -48,15 +52,21 @@ func Auth(c *gin.Context) {
 		// 	return
 		// }
 		// fmt.Println("user found", user)
-		if float64(time.Now().Unix()) > claims["exp"].(float64) {
-			fmt.Println("token expired euy")
-			c.JSON(http.StatusForbidden, gin.H{
-				"message": "token expired",
-			})
-		}
+		// if float64(time.Now().Unix()) > claims["exp"].(float64) {
+		// 	fmt.Println("token expired euy")
+		// 	c.JSON(http.StatusForbidden, gin.H{
+		// 		"message": "token expired",
+		// 	})
+		// 	c.Abort()
+		// 	return
+		// }
 	} else {
-		fmt.Println(err)
-		c.AbortWithStatus(http.StatusUnauthorized)
+		fmt.Println(err, reflect.TypeOf(err), reflect.ValueOf(err).Kind())
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"message": err.Error(),
+		})
+		c.Abort()
+		return
 	}
 	c.Next()
 }
