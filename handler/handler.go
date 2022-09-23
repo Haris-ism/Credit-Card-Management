@@ -108,9 +108,9 @@ func (t *Repo) SignIn(c *gin.Context) {
 		"exp":   time.Now().Add(time.Hour * 24).Unix(),
 	})
 
-	// Sign and get the complete encoded token as a string using the secret
 	tokenString, err := token.SignedString([]byte(os.Getenv("JWT")))
-	c.SetCookie("Authorization", tokenString, 3600*24, "", "", false, true)
+	c.SetSameSite(http.SameSiteLaxMode)
+	c.SetCookie("Authorization", tokenString, 3600*24, "/", "/", false, true)
 	fmt.Println(tokenString, err)
 	fmt.Println("getOne Data", user)
 	c.JSON(http.StatusOK, gin.H{
@@ -211,17 +211,21 @@ func (t *Repo) Put(c *gin.Context) {
 	})
 }
 func (t *Repo) Goroutines(c *gin.Context) {
-	def, _ := c.Get("grade")
-	fmt.Println("def", def)
-	fmt.Println("var", asd)
+	// fmt.Println("var", asd)
 	body := model.BodyParser{}
 	if err := c.BindJSON(&body); err != nil {
 		fmt.Println(err)
 		return
 	}
+	fmt.Println("var main thread", asd)
 	go func() {
+		fmt.Println("var", asd)
+
+		fmt.Println("body", body.Grade)
+
 		for {
 			if asd != body.Grade {
+				fmt.Println("return nih")
 				return
 			}
 			if asd == 0 {
@@ -231,7 +235,7 @@ func (t *Repo) Goroutines(c *gin.Context) {
 				fmt.Println("looping", asd)
 
 			}
-			time.Sleep(time.Duration(asd) * time.Second)
+			time.Sleep(2 * time.Second)
 		}
 	}()
 	asd = body.Grade
