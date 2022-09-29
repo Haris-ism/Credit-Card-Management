@@ -30,7 +30,7 @@ func (t *Repo) Post(c *gin.Context) {
 	fmt.Println("ieu user", user)
 
 	// method to post to DB
-	if err1 := t.DB.Create(&user).Error; err1 != nil {
+	if err1 := t.DB.Omit("account_id").Create(&user).Error; err1 != nil {
 		fmt.Println(err1)
 		return
 	}

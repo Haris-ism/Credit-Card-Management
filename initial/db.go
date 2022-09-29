@@ -2,6 +2,7 @@ package initial
 
 import (
 	"fmt"
+	"gin/model"
 	"os"
 
 	"gorm.io/driver/postgres"
@@ -16,5 +17,6 @@ func ConnectDB() *gorm.DB {
 		return nil
 	}
 	fmt.Println("db connected")
+	db.AutoMigrate(&model.User{}, &model.Account{})
 	return db
 }
