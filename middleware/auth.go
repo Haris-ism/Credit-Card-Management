@@ -43,7 +43,7 @@ func Auth(c *gin.Context) {
 		// fmt.Println("exp", claims["exp"])
 		// var user model.Account
 
-		// if err := handler.Service.DB.Where("email = ?", body.Email).First(&user).Error; err != nil {
+		// if err := controller.Service.DB.Where("email = ?", body.Email).First(&user).Error; err != nil {
 		// 	fmt.Println("failed to get data")
 		// 	c.JSON(http.StatusOK, gin.H{
 		// 		"message": "email invalid",
