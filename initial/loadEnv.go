@@ -1,7 +1,7 @@
 package initial
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/joho/godotenv"
 )
@@ -9,8 +9,6 @@ import (
 func LoadEnv() {
 	err := godotenv.Load()
 	if err != nil {
-		fmt.Println(err)
-		return
+		log.Println(err)
 	}
-
 }

@@ -1,8 +1,8 @@
 package initial
 
 import (
-	"fmt"
 	"gin/model"
+	"log"
 	"os"
 
 	"gorm.io/driver/postgres"
@@ -13,10 +13,10 @@ func ConnectDB() *gorm.DB {
 	dbUrl := os.Getenv("DB")
 	db, err := gorm.Open(postgres.Open(dbUrl), &gorm.Config{})
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return nil
 	}
-	fmt.Println("db connected")
-	db.AutoMigrate(&model.User{}, &model.Account{})
+	log.Println("db connected")
+	db.AutoMigrate(&model.User{}, &model.Account{}, &model.CreditCard{})
 	return db
 }

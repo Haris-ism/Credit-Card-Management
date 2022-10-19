@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"fmt"
 	"gin/model"
+	"log"
 	"net/http"
 	"os"
 	"time"
@@ -18,20 +18,19 @@ func (t *Repo) Post(c *gin.Context) {
 	body := model.BodyParser{}
 	//method to get body of request
 	if err := c.BindJSON(&body); err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return
 	}
-	fmt.Println("body:", body)
+	log.Println("body:", body)
 
 	var user model.User
 	user.Name = body.Name
 	user.Grade = body.Grade
-	user.Created_At = time.Now()
-	fmt.Println("ieu user", user)
+	log.Println("ieu user", user)
 
 	// method to post to DB
 	if err1 := t.DB.Omit("account_id").Create(&user).Error; err1 != nil {
-		fmt.Println(err1)
+		log.Println(err1)
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
@@ -44,20 +43,20 @@ func (t *Repo) SignUp(c *gin.Context) {
 	body := model.BodyParser{}
 	//method to get body of request
 	if err := c.BindJSON(&body); err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return
 	}
-	fmt.Println("body:", body)
+	log.Println("body:", body)
 	hash, err := bcrypt.GenerateFromPassword([]byte(body.Password), 10)
 	if err != nil {
-		fmt.Println("failed to hash password")
+		log.Println("failed to hash password")
 	}
 	account := model.Account{}
 	account.Email = body.Email
 	account.Password = string(hash)
 	// method to post to DB
 	if err1 := t.DB.Create(&account).Error; err1 != nil {
-		fmt.Println(err1)
+		log.Println(err1)
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
@@ -71,24 +70,24 @@ func (t *Repo) SignIn(c *gin.Context) {
 	body := model.BodyParser{}
 	//method to get body of request
 	if err := c.BindJSON(&body); err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return
 	}
-	fmt.Println("body:", body)
+	log.Println("body:", body)
 
 	// account := model.Account{}
 	var user model.Account
 
 	if err := t.DB.Where("email = ?", body.Email).First(&user).Error; err != nil {
-		fmt.Println("failed to get data")
+		log.Println("failed to get data")
 		c.JSON(http.StatusOK, gin.H{
-			"message": "email invalid",
+			"message": "email is invalid",
 			"info":    err,
 		})
 		return
 	}
 	if user.ID == 0 {
-		fmt.Println("data not Found")
+		log.Println("data not Found")
 		c.JSON(http.StatusOK, gin.H{
 			"message": "no data",
 		})
@@ -111,8 +110,8 @@ func (t *Repo) SignIn(c *gin.Context) {
 	tokenString, err := token.SignedString([]byte(os.Getenv("JWT")))
 	c.SetSameSite(http.SameSiteLaxMode)
 	c.SetCookie("Authorization", tokenString, 3600*24, "/", "/", false, true)
-	fmt.Println(tokenString, err)
-	fmt.Println("getOne Data", user)
+	log.Println(tokenString, err)
+	log.Println("getOne Data", user)
 	c.JSON(http.StatusOK, gin.H{
 		"message": "getOne success",
 		"data":    user,
@@ -121,11 +120,11 @@ func (t *Repo) SignIn(c *gin.Context) {
 
 }
 func (t *Repo) Get(c *gin.Context) {
-	fmt.Println("inside getall")
+	log.Println("inside getall")
 	var user []model.User
 
 	if err := t.DB.Find(&user).Error; err != nil {
-		fmt.Println("failed to get data")
+		log.Println("failed to get data")
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
@@ -138,7 +137,7 @@ func (t *Repo) GetOne(c *gin.Context) {
 	var user []model.User
 
 	if err := t.DB.Find(&user, id).Error; err != nil {
-		fmt.Println("failed to get data")
+		log.Println("failed to get data")
 		c.JSON(http.StatusOK, gin.H{
 			"message": "failed to get data",
 			"info":    err,
@@ -146,13 +145,13 @@ func (t *Repo) GetOne(c *gin.Context) {
 		return
 	}
 	if len(user) == 0 {
-		fmt.Println("data not Found")
+		log.Println("data not Found")
 		c.JSON(http.StatusOK, gin.H{
 			"message": "no data",
 		})
 		return
 	}
-	fmt.Println("getOne Data", user)
+	log.Println("getOne Data", user)
 	c.JSON(http.StatusOK, gin.H{
 		"message": "getOne success",
 		"data":    user,
@@ -163,14 +162,14 @@ func (t *Repo) Delete(c *gin.Context) {
 	var user []model.User
 
 	if err := t.DB.Delete(&user, id).Error; err != nil {
-		fmt.Println("failed to delete data")
+		log.Println("failed to delete data")
 		c.JSON(http.StatusOK, gin.H{
 			"message": "failed to delete data",
 			"info":    err,
 		})
 		return
 	}
-	fmt.Println("delete success")
+	log.Println("delete success")
 	c.JSON(http.StatusOK, gin.H{
 		"message": "delete success",
 	})
@@ -180,17 +179,17 @@ func (t *Repo) Put(c *gin.Context) {
 	body := model.BodyParser{}
 
 	if err := c.BindJSON(&body); err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return
 	}
 	var user model.User
 
 	if err := t.DB.Find(&user, id).Error; err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return
 	}
 	if user.ID == 0 {
-		fmt.Println("no data")
+		log.Println("no data")
 		c.JSON(http.StatusOK, gin.H{
 			"message": "no such data",
 		})
@@ -199,7 +198,7 @@ func (t *Repo) Put(c *gin.Context) {
 	user.Name = body.Name
 	user.Grade = body.Grade
 	if err := t.DB.Save(&user).Error; err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		c.JSON(http.StatusOK, gin.H{
 			"message": "editing failed",
 		})
@@ -211,28 +210,28 @@ func (t *Repo) Put(c *gin.Context) {
 	})
 }
 func (t *Repo) Goroutines(c *gin.Context) {
-	// fmt.Println("var", asd)
+	// log.Println("var", asd)
 	body := model.BodyParser{}
 	if err := c.BindJSON(&body); err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return
 	}
-	fmt.Println("var main thread", asd)
+	log.Println("var main thread", asd)
 	go func() {
-		fmt.Println("var", asd)
+		log.Println("var", asd)
 
-		fmt.Println("body", body.Grade)
+		log.Println("body", body.Grade)
 
 		for {
 			if asd != body.Grade {
-				fmt.Println("return nih")
+				log.Println("return nih")
 				return
 			}
 			if asd == 0 {
-				fmt.Println("looping", body.Grade)
+				log.Println("looping", body.Grade)
 
 			} else {
-				fmt.Println("looping", asd)
+				log.Println("looping", asd)
 
 			}
 			time.Sleep(2 * time.Second)

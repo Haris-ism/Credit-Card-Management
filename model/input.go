@@ -1,8 +1,6 @@
 package model
 
 import (
-	"time"
-
 	"gorm.io/gorm"
 )
 
@@ -20,9 +18,19 @@ type Account struct {
 
 type User struct {
 	gorm.Model
-	Name       string    `json:"name" binding:"required"`
-	Grade      int       `json:"grade" binding:"required"`
-	Created_At time.Time `json:"created_at"`
-	IeuEmail   string
-	Account    Account `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;foreignKey:IeuEmail;references:Email"`
+	Name  string `json:"name" binding:"required"`
+	Grade int    `json:"grade" binding:"required"`
+	// IeuEmail string
+	// Account  Account `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;foreignKey:IeuEmail;references:Email"`
 }
+type CreditCard struct {
+	gorm.Model
+	Number     string
+	UserNumber string
+}
+
+// type Usera struct {
+// 	gorm.Model
+// 	MemberNumber string       `gorm:"unique"`
+// 	CreditCards  []CreditCard `gorm:"foreignKey:UserNumber;references:MemberNumber"`
+// }
