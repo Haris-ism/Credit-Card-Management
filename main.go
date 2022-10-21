@@ -19,14 +19,17 @@ func main() {
 	router.Use(middleware.CorsMiddleware)
 	router.POST("/signup", services.SignUp)
 	router.POST("/signin", services.SignIn)
-	router.POST("/goroutines", services.Goroutines)
+
 	routes := router.Use(middleware.Auth)
+
 	routes.GET("/", services.Get)
 	routes.GET("/:id", services.GetOne)
 	routes.DELETE("/:id", services.Delete)
 	routes.PUT("/:id", services.Put)
 	routes.POST("/", services.Post)
+	routes.POST("/creditcards", services.RegistrationCC)
+	routes.PUT("/creditcards", services.UpdateCreditCards)
 
-	log.Println("server starts")
 	router.Run(port)
+	log.Println("server starts")
 }
