@@ -37,8 +37,8 @@ func Auth(c *gin.Context) {
 	})
 	// fmt.Println("token parsed", token)
 
-	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		fmt.Println("claims", claims["email"], claims["exp"])
+	if _, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		// fmt.Println("claims", claims["email"], claims["exp"])
 		// fmt.Println("tes time", float64(time.Now().Add(time.Hour*24).Unix()))
 		// fmt.Println("exp", claims["exp"])
 		// var user model.Account

@@ -32,17 +32,30 @@ func (t *Repo) RegistrationCC(c *gin.Context) {
 		return
 	}
 	if user.ID == 0 {
-		log.Println("no data")
+		log.Println("register cc: users id not found")
 		c.JSON(http.StatusOK, gin.H{
 			"message": "users id not found",
 		})
 		return
 	}
 	var creditCards model.CreditCards
+	if err := t.DB.Where("users_id = ?",user.ID).Find(&creditCards).Error; err != nil {
+		log.Println("failed to find users id", err)
+		c.JSON(http.StatusOK, gin.H{
+			"message": "failed to find users id",
+		})
+		return
+	}
+	if creditCards.UsersID != 0 {
+		log.Println("register cc: credit card already registered before")
+		c.JSON(http.StatusOK, gin.H{
+			"message": "credit card already registered before",
+		})
+		return
+	}
 	creditCards.UsersID = body.UsersID
 	creditCards.Bank = body.Bank
 	creditCards.Limit = body.Limit
-
 	// method to post to DB
 	if err := t.DB.Create(&creditCards).Error; err != nil {
 		log.Println("error when registering cc to the database euy", err)
