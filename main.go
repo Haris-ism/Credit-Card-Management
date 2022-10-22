@@ -29,6 +29,8 @@ func main() {
 	routes.POST("/", services.Post)
 	routes.POST("/creditcards", services.RegistrationCC)
 	routes.PUT("/creditcards", services.UpdateCreditCards)
+	routes.DELETE("/creditcards/:id", services.DeleteCC)
+
 
 	router.Run(port)
 	log.Println("server starts")
