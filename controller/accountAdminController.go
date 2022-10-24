@@ -13,8 +13,7 @@ import (
 )
 
 func (t *Repo) SignUp(c *gin.Context) {
-	// var user model.Accounts
-	body := model.Sign{}
+	var body model.Sign
 	//method to get body of request
 	if err := c.BindJSON(&body); err != nil {
 		log.Println(err)

@@ -41,7 +41,7 @@ func (t *Repo) GetOne(c *gin.Context) {
 }
 
 func (t *Repo) Post(c *gin.Context) {
-	body := model.InputData{}
+	var body model.InputData
 	//method to get body of request
 	if err := c.BindJSON(&body); err != nil {
 		log.Println(err)

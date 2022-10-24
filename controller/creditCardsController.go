@@ -56,7 +56,6 @@ func (t *Repo) RegistrationCC(c *gin.Context) {
 
 func (t *Repo) UpdateCreditCards(c *gin.Context) {
 	var body model.InputCreditCard
-	// var user model.Users
 	var creditCard model.CreditCards
 
 	if err := c.BindJSON(&body); err != nil {
