@@ -19,7 +19,15 @@ func (t *Repo) SignUp(c *gin.Context) {
 		log.Println(err)
 		return
 	}
-	if QueryFind(t, c, "email = ?", body.Email) == false {
+	accounts, bools := QueryFind(t, c, "email = ?", body.Email)
+	if bools == false {
+		return
+	}
+	if accounts.ID != 0 {
+		log.Println("data not Found")
+		c.JSON(500, gin.H{
+			"message": "email is already used",
+		})
 		return
 	}
 	log.Println("query success euy")
@@ -43,20 +51,16 @@ func (t *Repo) SignUp(c *gin.Context) {
 
 func (t *Repo) SignIn(c *gin.Context) {
 	body := model.Sign{}
-	var user model.Accounts
 	//method to get body of request
 	if err := c.BindJSON(&body); err != nil {
 		log.Println(err)
 		return
 	}
-	if err := t.DB.Find(&user, "email = ?", body.Email).Error; err != nil {
-		log.Println("failed to get data")
-		c.JSON(500, gin.H{
-			"message": "failed to find email",
-		})
+	accounts, bools := QueryFind(t, c, "email = ?", body.Email)
+	if bools == false {
 		return
 	}
-	if user.ID == 0 {
+	if accounts.ID == 0 {
 		log.Println("data not Found")
 		c.JSON(500, gin.H{
 			"message": "invalid email",
@@ -68,7 +72,7 @@ func (t *Repo) SignIn(c *gin.Context) {
 	// }
 	// log.Println("query success euy")
 
-	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(body.Password)); err != nil {
+	if err := bcrypt.CompareHashAndPassword([]byte(accounts.Password), []byte(body.Password)); err != nil {
 		c.JSON(400, gin.H{
 			"message": "password invalid",
 		})
@@ -87,7 +91,7 @@ func (t *Repo) SignIn(c *gin.Context) {
 	log.Println(tokenString, err)
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Sign In Success",
-		"data":    user,
+		"data":    accounts,
 		"token":   tokenString,
 	})
 }

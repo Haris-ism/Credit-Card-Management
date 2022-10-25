@@ -30,8 +30,8 @@ func (t *Repo) Get(c *gin.Context) {
 
 func (t *Repo) GetOne(c *gin.Context) {
 	id := c.Param("id")
-	user := QueryFindUsers(t, c, "id = ?", id)
-	if user == false {
+	user, bools := QueryFindUsers(t, c, "id = ?", id)
+	if bools == false {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
@@ -72,7 +72,6 @@ func (t *Repo) Post(c *gin.Context) {
 func (t *Repo) Put(c *gin.Context) {
 	id := c.Param("id")
 	var body model.InputData
-	var user model.Users
 
 	if err := c.BindJSON(&body); err != nil {
 		log.Println(err)
@@ -81,13 +80,8 @@ func (t *Repo) Put(c *gin.Context) {
 		})
 		return
 	}
-	// user := QueryFindUsers(t, c, "id = ?", body.UsersID)
-
-	if err := t.DB.Find(&user, id).Error; err != nil {
-		log.Println(err)
-		c.JSON(500, gin.H{
-			"message": "failed to find users",
-		})
+	user, bools := QueryFindUsers(t, c, "id = ?", id)
+	if bools == false {
 		return
 	}
 	if user.ID == 0 {
@@ -114,8 +108,8 @@ func (t *Repo) Put(c *gin.Context) {
 
 func (t *Repo) Delete(c *gin.Context) {
 	id := c.Param("id")
-	user := QueryFindUsers(t, c, "id = ?", id)
-	if user == false {
+	user, bools := QueryFindUsers(t, c, "id = ?", id)
+	if bools == false {
 		return
 	}
 	if err := t.DB.Delete(&user, id).Error; err != nil {

@@ -18,19 +18,23 @@ func (t *Repo) RegistrationCC(c *gin.Context) {
 		})
 		return
 	}
-	user := QueryFindUsers(t, c, "id = ?", body.UsersID)
-	if user == false {
+	user, bools := QueryFindUsers(t, c, "id = ?", body.UsersID)
+	if bools == false {
 		return
 	}
-	var creditCards model.CreditCards
-	if err := t.DB.Find(&creditCards, "users_id = ?", user.(model.Users).ID).Error; err != nil {
-		log.Println("failed to find users id", err)
-		c.JSON(500, gin.H{
-			"message": "failed to find users id",
+	if user.ID == 0 {
+		c.JSON(400, gin.H{
+			"message": "user not found",
 		})
 		return
 	}
-	if creditCards.UsersID != 0 {
+	var creditCards model.CreditCards
+
+	creditCardResult, bools := QueryFindCreditCards(t, c, "users_id = ?", body.UsersID)
+	if bools == false {
+		return
+	}
+	if creditCardResult.UsersID != 0 {
 		log.Println("register cc: credit card already registered before")
 		c.JSON(400, gin.H{
 			"message": "credit card already registered before",
@@ -63,18 +67,16 @@ func (t *Repo) UpdateCreditCards(c *gin.Context) {
 		return
 	}
 
-	user := QueryFindUsers(t, c, "id = ?", body.UsersID)
-	if user == false {
+	user, bools := QueryFindUsers(t, c, "id = ?", body.UsersID)
+	if bools == false {
 		return
 	}
-	if err := t.DB.Find(&creditCard, "users_id = ?", body.UsersID).Error; err != nil {
-		log.Println(err)
-		c.JSON(500, gin.H{
-			"message": "failed to search credit card id",
-		})
+
+	creditCardResult, bools := QueryFindCreditCards(t, c, "users_id = ?", body.UsersID)
+	if bools == false {
 		return
 	}
-	if creditCard.ID == 0 {
+	if creditCardResult.ID == 0 {
 		log.Println("no data")
 		c.JSON(400, gin.H{
 			"message": "credit card is not registered",
@@ -103,15 +105,11 @@ func (t *Repo) DeleteCC(c *gin.Context) {
 	id := c.Param("id")
 	var creditCards model.CreditCards
 
-	if err := t.DB.Find(&creditCards, "users_id = ?", id).Error; err != nil {
-		log.Println("delete cc failed :", err)
-		c.JSON(500, gin.H{
-			"message": "failed to get data",
-		})
+	creditCardResult, bools := QueryFindCreditCards(t, c, "users_id = ?", id)
+	if bools == false {
 		return
 	}
-
-	if creditCards.UsersID == 0 {
+	if creditCardResult.UsersID == 0 {
 		log.Println("credit card not Found")
 		c.JSON(400, gin.H{
 			"message": "credit card not Found",

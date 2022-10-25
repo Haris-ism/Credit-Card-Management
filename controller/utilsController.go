@@ -7,7 +7,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func QueryFindUsers(t *Repo, c *gin.Context, condition string, value interface{}) interface{} {
+func QueryFindCreditCards(t *Repo, c *gin.Context, condition string, value interface{}) (model.CreditCards, bool) {
+	var creditCards model.CreditCards
+
+	if err := t.DB.Find(&creditCards, condition, value).Error; err != nil {
+		log.Println("failed to get data")
+		c.JSON(500, gin.H{
+			"message": "failed to find users",
+		})
+		return creditCards, false
+	}
+	return creditCards, true
+}
+func QueryFindUsers(t *Repo, c *gin.Context, condition string, value interface{}) (model.Users, bool) {
 	var user model.Users
 
 	if err := t.DB.Find(&user, condition, value).Error; err != nil {
@@ -15,51 +27,21 @@ func QueryFindUsers(t *Repo, c *gin.Context, condition string, value interface{}
 		c.JSON(500, gin.H{
 			"message": "failed to find users",
 		})
-		return false
+		return user, false
 	}
-	if user.ID == 0 {
-		log.Println("data not Found")
-		c.JSON(500, gin.H{
-			"message": "users not found",
-		})
-		return false
-	}
-	return user
+
+	return user, true
 }
-func QueryFind(t *Repo, c *gin.Context, condition string, value string) interface{} {
-	var user model.Accounts
+func QueryFind(t *Repo, c *gin.Context, condition string, value string) (model.Accounts, bool) {
+	var accounts model.Accounts
 
-	// var user interface{}
-	// user=model.Accounts{}
-	// var asd interface{}
-	// asd="aaa"
-	// log.Println("type asd",reflect.TypeOf(asd))
-	// asd=1
-	// log.Println("type asd",reflect.TypeOf(asd))
-	// asd=model.Accounts{}
-	// log.Println("type asd",reflect.TypeOf(asd))
-	// log.Println("type user",user.(model.Accounts).Email)
-	// // log.Println("type user1",reflect.TypeOf(user1.Email),user1.Email)
-
-	// log.Println("ieu find na ",condition,value)
-	// switch condition{
-	// 	case "id = ?":
-	// 	user=model.Users{}
-	// }
-
-	if err := t.DB.Find(&user, condition, value).Error; err != nil {
+	if err := t.DB.Find(&accounts, condition, value).Error; err != nil {
 		log.Println("failed to get data")
 		c.JSON(500, gin.H{
 			"message": "failed to find email",
 		})
-		return false
+		return accounts, false
 	}
-	if user.ID != 0 {
-		log.Println("data not Found")
-		c.JSON(500, gin.H{
-			"message": "email is already used",
-		})
-		return false
-	}
-	return true
+
+	return accounts, true
 }
