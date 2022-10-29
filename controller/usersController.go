@@ -112,6 +112,13 @@ func (t *Repo) Delete(c *gin.Context) {
 	if bools == false {
 		return
 	}
+	if user.ID == 0 {
+		log.Println("no data")
+		c.JSON(400, gin.H{
+			"message": "user id not found",
+		})
+		return
+	}
 	if err := t.DB.Delete(&user, id).Error; err != nil {
 		log.Println("users delete failed :", err)
 		c.JSON(500, gin.H{

@@ -6,7 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// var asd int
 func MainRouter(services *Repo, port string) {
 	router := gin.Default()
 	router.Use(middleware.CorsMiddleware)

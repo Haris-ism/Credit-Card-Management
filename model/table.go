@@ -5,7 +5,6 @@ import (
 
 	"gorm.io/gorm"
 )
-type MethodInterface interface{}
 type Accounts struct {
 	gorm.Model
 	Email    string `json:"email" binding:"required" gorm:"unique"`

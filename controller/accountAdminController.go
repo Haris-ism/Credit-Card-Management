@@ -25,7 +25,7 @@ func (t *Repo) SignUp(c *gin.Context) {
 	}
 	if accounts.ID != 0 {
 		log.Println("data not Found")
-		c.JSON(500, gin.H{
+		c.JSON(400, gin.H{
 			"message": "email is already used",
 		})
 		return
@@ -62,19 +62,14 @@ func (t *Repo) SignIn(c *gin.Context) {
 	}
 	if accounts.ID == 0 {
 		log.Println("data not Found")
-		c.JSON(500, gin.H{
+		c.JSON(400, gin.H{
 			"message": "invalid email",
 		})
 		return
 	}
-	// if QueryFind(t, c, "email = ?", body.Email) == true {
-	// 	return
-	// }
-	// log.Println("query success euy")
-
 	if err := bcrypt.CompareHashAndPassword([]byte(accounts.Password), []byte(body.Password)); err != nil {
 		c.JSON(400, gin.H{
-			"message": "password invalid",
+			"message": "invalid password",
 		})
 		return
 	}
