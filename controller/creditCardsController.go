@@ -61,7 +61,6 @@ func (t *Repo) RegistrationCC(c *gin.Context) {
 func (t *Repo) UpdateCreditCards(c *gin.Context) {
 	var body model.InputCreditCard
 	var creditCard model.CreditCards
-
 	if err := c.BindJSON(&body); err != nil {
 		log.Println(err)
 		return
@@ -71,7 +70,13 @@ func (t *Repo) UpdateCreditCards(c *gin.Context) {
 	if bools == false {
 		return
 	}
-
+	if user.ID == 0 {
+		log.Println("no data")
+		c.JSON(400, gin.H{
+			"message": "no user using this credit card",
+		})
+		return
+	}
 	creditCardResult, bools := QueryFindCreditCards(t, c, "users_id = ?", body.UsersID)
 	if bools == false {
 		return
@@ -83,7 +88,7 @@ func (t *Repo) UpdateCreditCards(c *gin.Context) {
 		})
 		return
 	}
-	creditCard.UsersID = body.UsersID
+	creditCard=creditCardResult
 	creditCard.Bank = body.Bank
 	creditCard.Limit = body.Limit
 	creditCard.Ammount = body.Ammount
@@ -97,7 +102,7 @@ func (t *Repo) UpdateCreditCards(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"message": "update success",
-		"data":    user,
+		"data":    creditCard,
 	})
 }
 
