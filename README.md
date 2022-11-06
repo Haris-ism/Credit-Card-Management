@@ -9,7 +9,7 @@ Required:
 1. Docker
 
 How to run this project:
-1. Change your directory to root directory ./gin
+1. Change your directory to root directory ./Credit-Card-Management
 1. Build the images and containers by entering the following command: "./build.sh"
 2. To run the program, just simply run: "./run.sh"
 
@@ -21,5 +21,5 @@ Required:
 2. Postgresql version 14
 
 How to run this project:
-1. Change your directory to root directory ./gin
+1. Change your directory to root directory ./Credit-Card-Management
 2. Run the following command: "go run main.go"
