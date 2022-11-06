@@ -1,0 +1,2 @@
+docker start credit_card_management_db
+docker start credit_card_management_backend
