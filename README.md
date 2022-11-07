@@ -13,6 +13,8 @@ How to run this project:
 1. Build the images and containers by entering the following command: "./build.sh"
 2. To run the program, just simply run: "./run.sh"
 
+Note: if you are using windows and cannot run the ".sh" file, then right click on the ".sh" file and choose "open with git bash"
+
 
 ### if you are not using docker:
 
