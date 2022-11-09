@@ -5,6 +5,7 @@
 ### Summary
 
 This is a backend project for credit card management system.
+
 To access the system you will need JWT Authentication, to get the JWT please use the sign-in and sign-up API.
 
 After signing in you can register,update,delete a bank account.
@@ -16,6 +17,10 @@ You can also update and delete an existing credit card from an existing bank acc
 You cannot do the credit card operation if the bank account is not exist yet.
 
 For more detail please see the API Endpoints below.
+
+Note:
+    1. Bankend Port: 8888
+    2. Postgresql port: 5433
 
 ### if you are using docker:
 
