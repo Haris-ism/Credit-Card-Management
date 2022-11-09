@@ -3,12 +3,18 @@
 ## Techs: Golang (Gin), Postgres SQL
 
 ### Summary
+
 This is a backend project for credit card management system.
 To access the system you will need JWT Authentication, to get the JWT please use the sign-in and sign-up API.
+
 After signing in you can register,update,delete a bank account.
+
 You can attach a credit card to an existing bank account.
+
 You can also update and delete an existing credit card from an existing bank account.
+
 You cannot do the credit card operation if the bank account is not exist yet.
+
 For more detail please see the API Endpoints below.
 
 ### if you are using docker:
