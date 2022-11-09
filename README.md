@@ -18,10 +18,11 @@ You cannot do the credit card operation if the bank account is not exist yet.
 
 For more detail please see the API Endpoints below.
 
-Note:
-    1. Bankend Port: 8888
+### Note:
 
-    2. Postgresql port: 5433
+    - Bankend Port: 8888
+
+    - Postgresql port: 5433
 
 
 ### if you are using docker:
