@@ -20,7 +20,9 @@ For more detail please see the API Endpoints below.
 
 Note:
     1. Bankend Port: 8888
+
     2. Postgresql port: 5433
+
 
 ### if you are using docker:
 
