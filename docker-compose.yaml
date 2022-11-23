@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  credit_card_management_db:
+    image: postgres:14
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5433:5432'
+  credit_card_management_backend:
+    build: .
+    container_name: credit_card_management_backend
+    depends_on:
+      - credit_card_management_db
+    ports:
+      - '8888:8888'
+    volumes:
+      - './:/app'
+   
