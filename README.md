@@ -10,10 +10,7 @@ Required:
 
 How to run this project:
 1. Change your directory to root directory ./Credit-Card-Management
-1. Build the images and containers by entering the following command: "./build.sh"
-2. To run the program, just simply run: "./run.sh"
-
-Note: if you are using windows and cannot run the ".sh" file, then right click on the ".sh" file and choose "open with git bash"
+2. Build and Run the images and containers by entering the following command: "docker-compose up"
 
 
 ### if you are not using docker:
