@@ -19,11 +19,8 @@ You cannot do the credit card operation if the bank account is not exist yet.
 For more detail please see the API Endpoints below.
 
 ### Note:
-
-    - Bankend Port: 8888
-
-    - Postgresql port: 5433
-
+- Bankend Port: 8888
+- Postgresql port: 5433
 
 ### if you are using docker:
 
@@ -48,58 +45,58 @@ How to run this project:
 ### API Endpoints
 
 1. Sign Up:
-    1. Endpoint:"/signup"
-    2. Method:POST
-    3. Body:    {
+    - Endpoint:"/signup"
+    - Method:POST
+    - Body:    {
                     "email":"test@test.com",
                     "password":"test123"
                 }
 
 2. Sign In:  method 
-    1. Endpoint:"/signin"
-    2. Method:POST
-    3. Body:{
+    - Endpoint:"/signin"
+    - Method:POST
+    - Body:{
                 "email"     :"test@test.com",
                 "password"  :"test123"
             }
 
 3. Get all data (Sign In Required):  method 
-    1. Endpoint:"/"
-    2. Method:GET
+    - Endpoint:"/"
+    - Method:GET
 
 4. Register Bank Account: "/" method 
-    1. Endpoint:"/"
-    2. Method:POST
-    3. Body:{
+    - Endpoint:"/"
+    - Method:POST
+    - Body:{
                 "name"  :"john",
                 "job"   :"developer"
             }
 
 5. Update Bank Account:
-    1. Endpoint:"/:id" 
-    2. Method:PUT
-    3. Body:{
+    - Endpoint:"/:id" 
+    - Method:PUT
+    - Body:{
                 "name"  :"john",
                 "job"   :"analyst"
             }
 
 6. Delete Bank Account:
-    1. Endpoint:"/:id"
-    2. Method:DELETE
+    - Endpoint:"/:id"
+    - Method:DELETE
 
 7. Register Credit Card:
-    1. Endpoint:"/creditcards"
-    2. Method:POST
-    3. Body:{
+    - Endpoint:"/creditcards"
+    - Method:POST
+    - Body:{
                 "users_id":1,
                 "bank":"BCA",
                 "limit":10000000
             }
 
 8. Update Credit Card:
-    1. Endpoint:"/creditcards"
-    2. Method:PUT
-    3. Body:{
+    - Endpoint:"/creditcards"
+    - Method:PUT
+    - Body:{
                 "users_id":1,
                 "bank":"Mandiri",
                 "limit":20000000,
@@ -107,5 +104,5 @@ How to run this project:
             }
 
 9. Delete Credit Card:
-    1. Endpoint:"/creditcards/:id"
-    2. Method:DELETE
+    - Endpoint:"/creditcards/:id"
+    - Method:DELETE
