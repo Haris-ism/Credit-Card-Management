@@ -16,11 +16,11 @@ You can also update and delete an existing credit card from an existing bank acc
 
 You cannot do the credit card operation if the bank account is not exist yet.
 
-For more detail please see the API Endpoints below.
+For more detail please see the API Endpoints below or you can import the postman requests [here](https://api.postman.com/collections/23612342-5836f2d5-0cbf-4f85-9943-e5467584795c?access_key=PMAT-01GKQYFFFS1ZPTFP0PHMN59TCP).
 
 ### Note:
 - Bankend Port: 8888
-- Postgresql port: 5433
+- Postgresql port: 5432
 
 ### if you are using docker:
 
